@@ -13,5 +13,5 @@ variable "location" {
 variable "project_name" {
   description = "Name of Project"
   type        = string
-  default     = "resumeapi26hamit"
+  default     = "resume26hamit"
 }

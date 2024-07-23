@@ -1,3 +1,12 @@
+
+# Application Insights 
+resource "azurerm_application_insights" "app_insights" {
+  name                = "${var.function_app_name}-appinsights"
+  application_type    = "other"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+}
+
 # App Service Plan
 resource "azurerm_service_plan" "service_plan" {
   location            = var.location
@@ -7,10 +16,7 @@ resource "azurerm_service_plan" "service_plan" {
   sku_name            = "Y1"
 }
 
-# locals {
-#   curr_timestamp = formatdate("YYYY-MM-DD hh:mm:ss", timestamp())
-#   azure_function_name = "${var.function_app_name}-${local.curr_timestamp}"
-# }
+
 # Function App
 resource "azurerm_linux_function_app" "function_app" {
   location                   = var.location
@@ -27,6 +33,8 @@ resource "azurerm_linux_function_app" "function_app" {
     "SCM_DO_BUILD_DURING_DEPLOYMENT" = "true"
     "FUNCTIONS_WORKER_RUNTIME"       = "python"
     "AzureWebJobsFeatureFlags"       = "EnableWorkerIndexing"
+    "AzureWebJobsStorage"            = var.storage_connection_string
+    "APPINSIGHTS_INSTRUMENTATIONKEY" = azurerm_application_insights.app_insights.instrumentation_key
   }
   site_config {
     cors {
@@ -37,12 +45,11 @@ resource "azurerm_linux_function_app" "function_app" {
     }
   }
 
-  #   connection_string {
-  #     name  = "CosmosDBConnectionString"
-  #     type  = "Custom"
-  #     value = var.cosmosdb_connection_string
-  #   }
-
+  connection_string {
+    name  = "CosmosDBConnectionString"
+    type  = "Custom"
+    value = var.cosmosdb_connection_string
+  }
 
 }
 
