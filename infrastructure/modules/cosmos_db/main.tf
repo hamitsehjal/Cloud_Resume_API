@@ -6,6 +6,8 @@ resource "azurerm_cosmosdb_account" "db" {
   offer_type          = "Standard"
   kind                = "GlobalDocumentDB"
 
+  free_tier_enabled = true
+
   geo_location {
     location          = var.location
     failover_priority = 0
@@ -15,7 +17,7 @@ resource "azurerm_cosmosdb_account" "db" {
     consistency_level = "Eventual"
 
   }
-  free_tier_enabled = true
+
   capabilities {
     name = "EnableServerless"
   }
@@ -34,7 +36,7 @@ resource "azurerm_cosmosdb_sql_container" "db" {
   resource_group_name   = azurerm_cosmosdb_account.db.resource_group_name
   account_name          = azurerm_cosmosdb_account.db.name
   database_name         = azurerm_cosmosdb_sql_database.db.name
-  partition_key_paths   = ["/id"]
+  partition_key_paths = ["/id"]
   partition_key_version = 1
 
   indexing_policy {
