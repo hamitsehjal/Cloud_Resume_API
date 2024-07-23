@@ -1,5 +1,6 @@
 import azure.functions as func
 import logging
+import json
 
 app = func.FunctionApp()
 
@@ -16,9 +17,10 @@ def main(req: func.HttpRequest, documents: func.DocumentList) -> func.HttpRespon
     logging.info("Python HTTP trigger function processed a request.")
     if len(documents) > 0:
         resume = documents[0]
-
+        resume_dict = dict(resume)
+        json_data = json.dumps(resume_dict, indent=2)
         return func.HttpResponse(
-            body=resume, mimetype="application/json", status_code=200
+            body=json_data, mimetype="application/json", status_code=200
         )
 
     return func.HttpResponse(body="Resource not found", status_code=404)

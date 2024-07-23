@@ -14,7 +14,13 @@ terraform {
 
 # configuring the Microsoft Azure Provider 
 provider "azurerm" {
-  features {}
+  features {
+    resource_group {
+      prevent_deletion_if_contains_resources = false
+    }
+  }
+
+
 }
 
 # configuring the Time Provider
@@ -30,13 +36,13 @@ resource "azurerm_resource_group" "rg" {
 
 # Time Delay
 resource "time_sleep" "wait_30_seconds" {
-  depends_on      = [azurerm_resource_group.rg]
+  depends_on = [azurerm_resource_group.rg]
   create_duration = "30s"
 }
 
 # CosmosDB Module
 module "cosmos_db" {
-  depends_on            = [time_sleep.wait_30_seconds]
+  depends_on = [time_sleep.wait_30_seconds]
   source                = "./modules/cosmos_db"
   cosmosdb_account_name = "${var.project_name}-cosmosdb"
   location              = var.location
@@ -46,7 +52,7 @@ module "cosmos_db" {
 
 # Storage Module
 module "storage" {
-  depends_on          = [time_sleep.wait_30_seconds]
+  depends_on = [time_sleep.wait_30_seconds]
   source              = "./modules/storage_account"
   account_name        = "${var.project_name}storage"
   location            = var.location
@@ -55,7 +61,7 @@ module "storage" {
 
 # Azure Function Module 
 module "function" {
-  depends_on                 = [module.storage, module.cosmos_db]
+  depends_on = [module.storage, module.cosmos_db]
   source                     = "./modules/azure_functions"
   function_app_name          = var.project_name
   location                   = var.location

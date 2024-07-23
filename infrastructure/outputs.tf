@@ -11,33 +11,38 @@ output "function_app_url" {
 
 # Output from Storage Module
 output "storage_account_name" {
-  value = module.storage.name
+  value       = module.storage.name
+  description = "Name of Storage Account"
+}
+output "storage_account_connection_string" {
+  value       = module.storage.connection_string
+  sensitive   = true
+  description = "Connection String for Storage Account"
+}
+# Output from CosmosDB module
+output "cosmos_db_name" {
+  value       = module.cosmos_db.account_name
+  description = "The name of CosmosDB Account"
 }
 
-# # Output from CosmosDB module
-# output "cosmos_db_name" {
-#   value       = module.cosmos_db.account_name
-#   description = "The name of CosmosDB Account"
-# }
-#
-# output "cosmos_db_connection_string" {
-#   value       = module.cosmos_db.connection_string
-#   description = "The SQL connection string used to connect to CosmosDB Account"
-#   sensitive   = true
-# }
+output "cosmos_db_connection_string" {
+  value       = module.cosmos_db.connection_string
+  description = "The SQL connection string used to connect to CosmosDB Account"
+  sensitive   = true
+}
 
-# output "cosmos_db_account_name" {
-#   value       = module.cosmos_db.account_name
-#   description = "The name of CosmosDB Account"
-# }
-#
-# output "cosmos_db_database_name" {
-#   value       = module.cosmos_db.database_name
-#   description = "Name of CosmosDB SQL Database"
-# }
-#
-# output "cosmos_db_container_name" {
-#   value       = module.cosmos_db.container_name
-#   description = "Name of CosmosDB Database Container"
-# }
-#
+output "cosmos_db_account_name" {
+  value       = module.cosmos_db.account_name
+  description = "The name of CosmosDB Account"
+}
+
+output "cosmos_db_database_name" {
+  value       = module.cosmos_db.database_name
+  description = "Name of CosmosDB SQL Database"
+}
+
+output "cosmos_db_container_name" {
+  value       = module.cosmos_db.container_name
+  description = "Name of CosmosDB Database Container"
+}
+
