@@ -34,30 +34,30 @@ resource "time_sleep" "wait_30_seconds" {
   create_duration = "30s"
 }
 
-# CosmosDB Module
-module "cosmos_db" {
-  depends_on = [time_sleep.wait_30_seconds]
-  source                = "./modules/cosmos_db"
-  cosmosdb_account_name = "${var.project_name}-cosmosdb"
-  location              = var.location
-  resource_group_name   = var.resource_group_name
-}
+# # CosmosDB Module
+# module "cosmos_db" {
+#   depends_on = [time_sleep.wait_30_seconds]
+#   source                = "./modules/cosmos_db"
+#   cosmosdb_account_name = "${var.project_name}-cosmosdb"
+#   location              = var.location
+#   resource_group_name   = var.resource_group_name
+# }
 
 
 # Storage Module
 module "storage" {
   depends_on = [time_sleep.wait_30_seconds]
   source              = "./modules/storage_account"
-  account_name        = "${var.project_name}26hamit"
+  account_name        = "${var.project_name}storage"
   location            = var.location
   resource_group_name = var.resource_group_name
 }
 
 # Azure Function Module 
 module "function" {
-  depends_on = [module.cosmos_db, module.storage]
-  source                     = "./modules/azure_functions"
-  cosmosdb_connection_string = module.cosmos_db.connection_string
+  depends_on = [module.storage]
+  source = "./modules/azure_functions"
+  #   cosmosdb_connection_string = module.cosmos_db.connection_string
   function_app_name          = var.project_name
   location                   = var.location
   resource_group_name        = var.resource_group_name

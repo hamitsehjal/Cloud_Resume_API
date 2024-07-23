@@ -24,7 +24,7 @@ variable "storage_account_access_key" {
   description = "Value of the Storage Account Access Key"
   type        = string
 }
-variable "cosmosdb_connection_string" {
-  description = "Value of CosmosDB Connection String"
-  type        = string
-}
+# variable "cosmosdb_connection_string" {
+#   description = "Value of CosmosDB Connection String"
+#   type        = string
+# }
