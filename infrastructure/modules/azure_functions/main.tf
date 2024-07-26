@@ -1,8 +1,7 @@
-
-# Application Insights 
+# Application Insights
 resource "azurerm_application_insights" "app_insights" {
   name                = "${var.function_app_name}-appinsights"
-  application_type    = "other"
+  application_type    = "Node.JS"
   location            = var.location
   resource_group_name = var.resource_group_name
 }
@@ -31,7 +30,6 @@ resource "azurerm_linux_function_app" "function_app" {
   app_settings = {
     "ENABLE_ORYX_BUILD"              = "true"
     "SCM_DO_BUILD_DURING_DEPLOYMENT" = "true"
-    "FUNCTIONS_WORKER_RUNTIME"       = "python"
     "AzureWebJobsFeatureFlags"       = "EnableWorkerIndexing"
     "AzureWebJobsStorage"            = var.storage_connection_string
     "APPINSIGHTS_INSTRUMENTATIONKEY" = azurerm_application_insights.app_insights.instrumentation_key
@@ -41,7 +39,7 @@ resource "azurerm_linux_function_app" "function_app" {
       allowed_origins = ["*"]
     }
     application_stack {
-      python_version = "3.12"
+      node_version = "20"
     }
   }
 
