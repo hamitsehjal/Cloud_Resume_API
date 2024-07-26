@@ -12,6 +12,7 @@
     "jsonresume-theme-elegant": "^1.16.1"
   },
   "devDependencies": {
-    "azure-functions-core-tools": "^4.x"
+    "azure-functions-core-tools": "^4.x",
+    "prettier": "3.3.3"
   }
 }
