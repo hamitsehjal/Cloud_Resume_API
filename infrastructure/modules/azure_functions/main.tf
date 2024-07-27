@@ -32,6 +32,7 @@ resource "azurerm_linux_function_app" "function_app" {
     "SCM_DO_BUILD_DURING_DEPLOYMENT" = "true"
     "AzureWebJobsFeatureFlags"       = "EnableWorkerIndexing"
     "AzureWebJobsStorage"            = var.storage_connection_string
+    "AzureWebJobsDisableHomepage"    = "true"
     "APPINSIGHTS_INSTRUMENTATIONKEY" = azurerm_application_insights.app_insights.instrumentation_key
   }
   site_config {
