@@ -1,7 +1,11 @@
 name: Deploy Node.js project to Azure Function App
 
 on:
-  [ push ]
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/**'
 
 env:
   AZURE_FUNCTIONAPP_NAME: 'resume26hamitfunc'
